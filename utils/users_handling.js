@@ -10,11 +10,8 @@ export const handle_validation_signup = (req,res)=>{
 
 
 export const validate_password = (passwd , hash)=>{
-	let  a = false
-	bcrypt.compare(passwd,hash).then((res)=>{
-		console.log(a)
-		a=res
-	})
-
-	return a
+	let isValid = false
+	isValid = bcrypt.compareSync(passwd,hash)
+	console.log(isValid)
+	return isValid
 }

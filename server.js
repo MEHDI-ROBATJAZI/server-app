@@ -2,9 +2,10 @@ import express from 'express'
 import Router from './routes/index.routes'
 import bodyParser from 'body-parser'
 import cors from 'cors'
+require("dotenv").config()
 
 
-const PORT = process.env.PORT || 1000
+const PORT = process.env.PORT || 3000   
 const app = express()
 
 

@@ -3,10 +3,11 @@ mongoose.Promise = global.Promise
 require("dotenv").config()
 
 const url = process.env.DB_URL
-const dbname = process.env.DB_Name
+const dbname = process.env.DB_NAME
 const port = process.env.DB_PORT
 
 const URI = url + port +"/" + dbname
+
 
 const CONFIG = { 
 	useNewUrlParser: true,

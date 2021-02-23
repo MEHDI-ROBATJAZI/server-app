@@ -9,23 +9,23 @@ export const signupDataStore=(req,res)=>{
     res.json(error)
   }
 
-  const {
-    name,
-    family,
-    email,
-    passwd,
-    gender,
-  } = req.body
+  // const {
+  //   name,
+  //   family,
+  //   email,
+  //   passwd,
+  //   gender,
+  // } = req.body
 
 
   
   
   const NewUser = new UserModel(req.body)
-  
-  console.log(NewUser.getAllUsers)
-  // NewUser.save().then(()=>{
-    // })
+
+  NewUser.save().then((data)=>{
+    console.log(data)
     res.send('your data is saved now')
+  })
 
 }
 
@@ -37,10 +37,12 @@ export const loginUser= async(req,res)=>{
   const user = await UserModel.findOne({email:{$eq:email}} , 'passwd').exec()
 
 
-  console.log(validate_password(passwd , user.passwd))
+  const Result = validate_password(passwd , user.passwd)
   
-  // console.log(result)
-  
-  res.send('dkjfak')
+  if(Result){
+    res.status(200).send('your password is valid')
 
+  }else{
+    res.status(400).send("invalid password")
+  }
 }
