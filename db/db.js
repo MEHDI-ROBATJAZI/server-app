@@ -1,6 +1,8 @@
 import mongoose from 'mongoose'
 mongoose.Promise = global.Promise
-require("dotenv").config()
+import dotenv from "dotenv"
+dotenv.config()
+
 
 const url = process.env.DB_URL
 const dbname = process.env.DB_NAME

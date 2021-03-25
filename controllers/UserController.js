@@ -1,48 +1,45 @@
-import UserModel from '../db/userSchema'
-import {validationResult} from 'express-validator'
-import {validate_password} from '../utils/users_handling'
+import UserModel from "../db/userSchema";
+import { validationResult } from "express-validator";
 
-export const signupDataStore=(req,res)=>{
 
-  const error = validationResult(req)
-  if(!error.isEmpty()){
-    res.json(error)
+
+// user register
+export const signupDataStore = (req, res) => {
+  const error = validationResult(req);
+  if (!error.isEmpty()) {
+    res.json(error);
   }
-
-  // const {
-  //   name,
-  //   family,
-  //   email,
-  //   passwd,
-  //   gender,
-  // } = req.body
+  // create instance from user model
+  const NewUser = new UserModel(req.body);
 
 
-  
-  
-  const NewUser = new UserModel(req.body)
-
-  NewUser.save().then((data)=>{
-    console.log(data)
-    res.send('your data is saved now')
-  })
-
-}
+  // data store to  mongodb
+  NewUser.save().then((data) => {
+    console.log(data);
+    res.status(200).send("your data is saved now");
+  });
+};
 
 
-export const loginUser= async(req,res)=>{
-    
-  const {email ,passwd} = req.body
+// login user
+export const loginUser = async (req, res) => {
+  try {
+    const { email, passwd } = req.body;
 
-  const user = await UserModel.findOne({email:{$eq:email}} , 'passwd').exec()
+    const User = await UserModel.findUser_comparePassword(email,passwd);
+      //invalid password
+    if(!User){
+      res.status(400).json({ErrorMessage:"your password is invalid please enter valid password"})
+    }else{
+      
+      User.generate_token()
 
-
-  const Result = validate_password(passwd , user.passwd)
-  
-  if(Result){
-    res.status(200).send('your password is valid')
-
-  }else{
-    res.status(400).send("invalid password")
+      res.status(200).send("every thing is ok");
+    }
+  } catch (err){
+    console.error(err)
   }
-}
+};
+
+
+
