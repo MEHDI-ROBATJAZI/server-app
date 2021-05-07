@@ -9,10 +9,7 @@ const userSchema = new mongoose.Schema({
   email: {type:String, required: true, trim:true },
   passwd: {type:String,required:true, trim:true },
   gender: {type:String,required:false, trim:true },
-  tokens:[{
-    token:{type:String,required:true},
-    access:{type:String,required:true}
-  }]
+  scores:[]
 });
 
 // hash password
@@ -45,7 +42,6 @@ userSchema.statics.findUser_comparePassword = function (email,password) {
     if(!User){
       return Promise.reject()
     }else{
-      
       return new Promise((resolve, reject) => {
         bcrypt.compare(password, User.passwd, function (err, isMatch) {
           if (isMatch===false) reject(err);
@@ -59,9 +55,6 @@ userSchema.statics.findUser_comparePassword = function (email,password) {
 
 };
 
-userSchema.methods.generate_token = function(){
-  console.log(this)
-}
 
 const UserModel = conn.model("users", userSchema);
 export default UserModel;

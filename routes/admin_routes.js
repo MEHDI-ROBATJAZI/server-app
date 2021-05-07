@@ -5,7 +5,8 @@ import {
 	getUsersCount,
 	getUsersInfo,
 	getMalesInfo,
-	getFemalesInfo
+	getFemalesInfo,
+	getMaleAndFemaleLength
 } from '../controllers/AdminController'
 
 Router.post('/check-password',(req,res)=>{
@@ -18,7 +19,7 @@ Router.get("/getUsersCount",getUsersCount)
 Router.get("/getUsersInfo",getUsersInfo)
 Router.get("/getUsersInfo/males",getMalesInfo)
 Router.get("/getUsersInfo/females",getFemalesInfo)
-
+Router.get("/getUsersCount/length",getMaleAndFemaleLength)
 
 
 
